@@ -41,17 +41,57 @@ document.addEventListener("DOMContentLoaded", function(event) {
         constructor(_leJeu) {
             console.log("Création du serpent")
             this.leJeu=_leJeu;
-        }
-        verifieTouche(ext){
 
+            this.currentX=-1;
+            this.currentY=0;
+            this.nextMoveX = 1;
+            this.nextMoveY = 0;
+
+            this.serpentLongueur =1;
+            this.tblCarreSerpent =[];
+
+            this.vitesse =250;
+            this.timing = setInterval(this.controleSerpent.bind(this), this.vitesse);
+            //bind = voir explication en dessous
+            document.addEventListener("keydown", this.verifieTouche.bind(this));
+            //bind(this), c'est pour que dans deplacement this équicaut au this de bind donc au lieu d'etre document le this de deplacement va etre serpent
+        }
+        verifieTouche(_evt){
+            var evt = _evt;
+            console.log(evt.keyCode);
+            this.deplacement(evt.keyCode);
+            //keyCode = le code (num) de la touche j'ai enfoncé
         }
 
         deplacement(dirCode){
-
+            switch(dirCode){
+                case 37://37 = le keyCode pour la fleche gauche
+                    this.nextMoveX=-1;
+                    this.nextMoveY=0;
+                    break;
+                case 38://38 = le keyCode pour la fleche haut
+                    this.nextMoveX=0;
+                    this.nextMoveY=-1;
+                    break;
+                case 39://39 = le keyCode pour la fleche droite
+                    this.nextMoveX=1;
+                    this.nextMoveY=0;
+                    break;
+                case 40://40 = le keyCode pour la fleche bas
+                    this.nextMoveX=0;
+                    this.nextMoveY=1;
+                    break;
+            }
+            //console.log(this.nextMoveY);
         }
 
         controleSerpent(){
+            var nextX=this.currentX+this.nextMoveX;
+            var nextY=this.currentY+this.nextMoveY;
 
+            this.dessineCarre(nextX, nextY);
+            this.currentX=nextX;
+            this.currentY=nextY;
         }
 
         dessineCarre(x,y){
