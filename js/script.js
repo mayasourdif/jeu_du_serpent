@@ -12,15 +12,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         }
         nouvellePartie(){
+            this.finPartie();
             this.affichagePointage(1);
 
-            this.pomme= new Pomme;
-            this.serpent= new Serpent;
+            this.pomme= new Pomme(this);//passe a ma pomme le jeu en référence
+            this.serpent= new Serpent(this);
             // this.*** : ***= une propriété
 
         }
 
         finPartie(){
+            if(this.pomme !==undefined){
+                this.pomme.supprimePomme();
+                this.pomme = undefined;
+            }
+
 
         }
 
@@ -32,17 +38,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 // le serpent
     class Serpent{
-        constructor() {
+        constructor(_leJeu) {
             console.log("Création du serpent")
+            this.leJeu=_leJeu;
         }
+        verifieTouche(ext){
+
+        }
+
+        deplacement(dirCode){
+
+        }
+
+        controleSerpent(){
+
+        }
+
+        dessineCarre(x,y){
+
+        }
+
+        supprimeSerpent(){
+
+        }
+
     }
 
 //la pomme
     class Pomme{
-        constructor() {
+        constructor(_leJeu) { //le parametre va etre supprimé à la finde la fonction
             console.log("Création de la pomme")
+
+            this.leJeu=_leJeu;
+            this.pomme =[]; //tableau vide
+            this.ajoutePomme();
+        }
+
+        //2 méthodes concernant la pomme
+        ajoutePomme(){
+           var posX = Math.floor(Math.random()*this.leJeu.grandeurGrille);
+           var posY = Math.floor(Math.random()*this.leJeu.grandeurGrille);
+           //MAth.floor = pour avoir un chiffre rond
+           //Math.random * ... = pour avoir un chiffre dans la grandeur de la grille
+            this.pomme = [this.leJeu.s.rect(posX *this.leJeu.grandeurCarre, posY*this.leJeu.grandeurCarre, this.leJeu.grandeurCarre, this.leJeu.grandeurCarre).attr({fill:'red'}), posX, posY];
+            //rect = methode pour dessiner un rectangle, a l'interieur des parantheses = dimmensions
+            //attr = attribut, remplir en rouge
+            //= création d'un rectangle dans le tableau pomme
+
+        }
+        supprimePomme(){
+            this.pomme[0].remove(); //methode remove pour enlever le rectangle rouge crééer dans le tableau pomme
+
         }
     }
+
+
+
+    //////////////////////////////////////////////
 
     var unePartie = new Jeu("#jeu", "#pointage");//Création de l'objet Jeu avec la description de la class jeu
 //les # c'est pcq cest des id dans le html
